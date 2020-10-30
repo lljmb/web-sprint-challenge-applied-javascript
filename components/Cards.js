@@ -16,13 +16,13 @@
 
 const entryPoint = document.querySelector('.cards-container')
 
-function makeBio({ articleURL } /* what data does the panel need? */) {
+function makeArt( artObj  /* what data does the panel need? */) {
  
 
     // TASK 5- Instantiate all the elements needed for a panel
   
     const panel = document.createElement('div');
-    const headline = document.createElement('div');
+    const tagline = document.createElement('div');
     const authorContent = document.createElement('div');
     const authorImg = document.createElement('div');
     const authorLink = document.createElement('img'); // make detached img tag
@@ -33,7 +33,7 @@ function makeBio({ articleURL } /* what data does the panel need? */) {
   
     // TASK 6- Setup the structure of our elements
   
-    panel.appendChild(headline);
+    panel.appendChild(tagline);
     panel.appendChild(authorContent);
     authorContent.appendChild(authorImg);
     authorImg.appendChild(authorLink);
@@ -53,25 +53,26 @@ function makeBio({ articleURL } /* what data does the panel need? */) {
   
   
     // TASK 7- Add proper class names to our elements (See index.html for reference)
-    // paying attention to the elements that need to start out hidden
   
     panel.classList.add('card');
-    headline.classList.add('headline');
+    tagline.classList.add('headline');
     authorContent.classList.add('author');
     authorImg.classList.add('img-container');
     authorLink.classList.add('img');
     authorName.classList.add('span');
 
     // TASK 8- Set text content using arguments as raw material
-    //  and also using the open and close arrows imported at the top of the file
-    authorContent.textContent = `By ${name}`; 
+    tagline.textContent = artObj.headline
+    authorContent.textContent = `By ${artObj.authorName}`
+    authorLink.src = artObj.authorPhoto
+
   
   
     // TASK 9- When the 'open' or 'close' buttons are clicked, the content is toggled on/off:
     //  - the open button needs to go away (the 'hide-btn' class name controls this)
     //  - the close button needs to show (the 'hide-btn' class name controls this)
     //  - the contents need to show (the 'toggle-on' class name controls this)
-  headline.addEventListener('click', (event) => {
+    tagline.addEventListener('click', (event) => {
     console.log(`user clicked the '${event.target.textContent}' article `)
   });
   
@@ -79,17 +80,16 @@ function makeBio({ articleURL } /* what data does the panel need? */) {
     return panel; 
   }
 
- console.log( makeBio('https://lambda-times-api.herokuapp.com/articles'))
+ makeArt('https://lambda-times-api.herokuapp.com/articles')
 
-//   axios
-//   .get('https://lambda-times-api.herokuapp.com/articles')
-//   .then((artData) => {
-//       const articles = artData.data.articles;
-//       articles.forEach((article) => {
-//           const newArt = makeBio ({ articleURL: article });
-//             entryPoint.appendChild(newArt);
-//       })
-//   })
-//   .catch( err => {
-//       console.log(err, 'something went terribly wrong')
-//   })
+  axios
+  .get('https://lambda-times-api.herokuapp.com/articles')
+  .then((response) => {
+      const articles = response.data.articles.javascript;
+      articles.forEach((article) => {
+            entryPoint.appendChild(makeArt(article));
+      }) })
+
+  .catch( err => {
+      console.log(err, 'something went terribly wrong')
+  })

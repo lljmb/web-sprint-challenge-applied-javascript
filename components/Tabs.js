@@ -12,16 +12,15 @@
 
 const entryPoint = document.querySelector('.topics')
 
-function makeTab({ tabURL }) {
+function makeTab( tabData ) {
     const tab = document.createElement('div');
-    const tabElement = document.createElement('a'); // make detached a tag
-    tabElement.src = tabURL; // set src property to become the tagg we passed in
     
-    tab.classList.add('topics');
-    tab.appendChild(tabElement)
+    tab.classList.add('tab');
+    tab.textContent = tabData
+    
   
-    return tab
-};
+    return tab;
+}
 
 axios
 .get('https://lambda-times-api.herokuapp.com/topics')
@@ -30,7 +29,6 @@ axios
     tabs.forEach(tab => {
         let topic = makeTab(tab);
        entryPoint.appendChild(topic);
-        console.log(makeTab('https://lambda-times-api.herokuapp.com/topics'))
     })
 })
 .catch(error => {

@@ -24,7 +24,6 @@ function makeHeader() {
     header.appendChild(headerTitle);
     header.appendChild(temp);
    
-
     header.classList.add('header');
     headerTitle.classList.add('h1');
     date.classList.add('date');

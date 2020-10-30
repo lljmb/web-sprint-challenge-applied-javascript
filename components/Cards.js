@@ -62,9 +62,9 @@ function makeArt( artObj  /* what data does the panel need? */) {
     authorName.classList.add('span');
 
     // TASK 8- Set text content using arguments as raw material
-    tagline.textContent = artObj.headline
-    authorContent.textContent = `By ${artObj.authorName}`
-    authorLink.src = artObj.authorPhoto
+    tagline.textContent = artObj.headline;
+    authorContent.textContent = `By ${artObj.authorName}`;
+    authorLink.src = artObj.authorPhoto;
 
   
   
@@ -85,10 +85,34 @@ function makeArt( artObj  /* what data does the panel need? */) {
   axios
   .get('https://lambda-times-api.herokuapp.com/articles')
   .then((response) => {
-      const articles = response.data.articles.javascript;
-      articles.forEach((article) => {
+      const javaArticles = response.data.articles.javascript;
+      javaArticles.forEach((article) => {
             entryPoint.appendChild(makeArt(article));
-      }) })
+      }) 
+    
+      const bootArticles = response.data.articles.bootstrap;
+      bootArticles.forEach((article) => {
+            entryPoint.appendChild(makeArt(article));
+      })
+
+      const techArticles = response.data.articles.technology;
+      techArticles.forEach((article) => {
+            entryPoint.appendChild(makeArt(article));
+      })
+
+      const jqArticles = response.data.articles.jquery;
+      jqArticles.forEach((article) => {
+            entryPoint.appendChild(makeArt(article));
+      })
+
+      const nodeArticles = response.data.articles.node;
+      nodeArticles.forEach((article) => {
+            entryPoint.appendChild(makeArt(article));
+      })
+    
+    
+    
+    })
 
   .catch( err => {
       console.log(err, 'something went terribly wrong')

@@ -20,3 +20,74 @@
 // Add a listener for click events so that when a user clicks on a card, the headline of the article is logged to the console.
 //
 // Use your function to create a card for each of the articles, and append each card to the DOM.
+
+function createArticle(artObj){
+    // setting up basic scaffolding
+    const card = document.createElement('div');
+    const headline = document.createElement('div');
+    const authorDiv = document.createElement('div');
+    const authorImgContainer = document.createElement('div');
+    const authorImg = document.createElement('img');
+    const authorName = document.createElement('span');
+
+    card.appendChild(headline);
+    card.appendChild(authorDiv);
+    authorDiv.appendChild(authorImgContainer);
+    authorImgContainer.appendChild(authorImg);
+    authorDiv.appendChild(authorName);
+
+    // setting class names & content 
+    card.classList.add('card');
+    headline.classList.add('headline');
+    authorDiv.classList.add('author');
+    authorImgContainer.classList.add('img-container');
+
+    headline.textContent = artObj.headline;
+    authorName.textContent = `By ${artObj.authorName}`;
+    authorImg.src = artObj.authorPhoto;
+
+    // adding the listener event
+    card.addEventListener('click', e => {
+        console.log(`user clicked on ${headline.textContent}`) 
+    }
+    )
+
+    // dont forget to return tehehe
+    return card
+};
+
+axios.get('https://lambda-times-api.herokuapp.com/articles')
+.then(res => {
+    const articles = res.data.articles;
+    const javaArticles = articles.javascript;
+    const bootArticles = articles.bootstrap;
+    const techArticles = articles.technology;
+    const jqArticles = articles.jquery;
+    const nodeArticles = articles.node;
+    
+    javaArticles.forEach(article => {
+
+        const newJavaArticle = createArticle(article);
+        document.querySelector('.cards-container').appendChild(newJavaArticle);
+    });
+    bootArticles.forEach(article => {
+         const newBootArticle = createArticle(article);
+         document.querySelector('.cards-container').appendChild(newBootArticle)
+    });
+    techArticles.forEach(article => {
+         const newTechArticle = createArticle(article);
+         document.querySelector('.cards-container').appendChild(newTechArticle);
+    });
+    jqArticles.forEach(article => {
+        const newJqArticle = createArticle(article);
+        document.querySelector('.cards-container').appendChild(newJqArticle);
+    });
+    nodeArticles.forEach(article => {
+        const newNodeArticle = createArticle(article);
+        document.querySelector('.cards-container').appendChild(newNodeArticle);
+    })
+
+})
+.catch(err => {
+    console.log('error', err)
+})
